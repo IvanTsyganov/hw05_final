@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %}
+{{ text }}
+{% endblock title %}
+
+{% block content %}
+<h1> {{ text  }} </h1>
+{% include 'posts/includes/switcher.html' %}
+    {% for post in page_obj %}
+      {% include 'includes/article.html' %}
+        {% if not forloop.last %}<hr>{% endif %}
+    {% endfor %}
+    
+    {% include 'posts/includes/paginator.html' %}
+
+{% endblock %}
