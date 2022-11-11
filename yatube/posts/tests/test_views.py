@@ -153,13 +153,13 @@ class PostViewContextTests(TestCase):
             slug='another_slug',
             description='another test description',
         )
-        small_gif = (            
-             b'\x47\x49\x46\x38\x39\x61\x02\x00'
-             b'\x01\x00\x80\x00\x00\x00\x00\x00'
-             b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
-             b'\x00\x00\x00\x2C\x00\x00\x00\x00'
-             b'\x02\x00\x01\x00\x00\x02\x02\x0C'
-             b'\x0A\x00\x3B'
+        small_gif = (
+            b'\x47\x49\x46\x38\x39\x61\x02\x00'
+            b'\x01\x00\x80\x00\x00\x00\x00\x00'
+            b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
+            b'\x00\x00\x00\x2C\x00\x00\x00\x00'
+            b'\x02\x00\x01\x00\x00\x02\x02\x0C'
+            b'\x0A\x00\x3B'
         )
         uploaded = SimpleUploadedFile(
             name='small.gif',
@@ -310,9 +310,9 @@ class PostViewContextTests(TestCase):
         first_comment_post = first_comment.post
         first_comment_text = first_comment.text
         self.assertEqual(first_comment_post,
-                        PostViewContextTests.post)
+                         PostViewContextTests.post)
         self.assertEqual(first_comment_text,
-                        PostViewContextTests.comment.text)
+                         PostViewContextTests.comment.text)
 
     def test_cache(self):
         """Проверка равности кеша"""
@@ -340,6 +340,7 @@ class PostViewContextTests(TestCase):
         )
         second_context = response2.content
         self.assertEqual(first_context, second_context)
+
 
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
 class PostViewFollowTests(TestCase):
@@ -399,7 +400,7 @@ class PostViewFollowTests(TestCase):
     def test_get_follow(self):
         """Подписка"""
         follow_count = Follow.objects.count()
-        response = self.authorized_user2.get(
+        self.authorized_user2.get(
             reverse('posts:profile_follow',
                     kwargs={'username': self.author.username})
         )

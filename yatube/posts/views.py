@@ -11,6 +11,7 @@ def get_paginate(queryset, request):
     page_number = request.GET.get('page')
     return paginator.get_page(page_number)
 
+
 @cache_page(20)
 def index(request):
     text = 'Последние обновления на сайте'
@@ -103,6 +104,7 @@ def post_edit(request, post_id):
     }
     return render(request, 'posts/post_create.html', context)
 
+
 @login_required
 def add_comment(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
@@ -113,6 +115,7 @@ def add_comment(request, post_id):
         comment.post = post
         comment.save()
     return redirect('posts:post_detail', post_id=post_id)
+
 
 @login_required
 def follow_index(request):
@@ -127,10 +130,11 @@ def follow_index(request):
     }
     return render(request, 'posts/follow.html', context)
 
+
 @login_required
 def profile_follow(request, username):
     if request.user.username == username:
-        return redirect ('posts:profile', username=username)
+        return redirect('posts:profile', username=username)
     author = get_object_or_404(User, username=username)
     followed = Follow.objects.filter(
         author=author,
@@ -139,6 +143,7 @@ def profile_follow(request, username):
     if not followed:
         Follow.objects.create(user=request.user, author=author)
     return redirect('posts:profile', username=username)
+
 
 @login_required
 def profile_unfollow(request, username):
