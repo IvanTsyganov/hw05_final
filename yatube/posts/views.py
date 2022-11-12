@@ -6,8 +6,11 @@ from .models import Post, Group, User, Follow
 from .forms import PostForm, CommentForm
 
 
+POSTS_PER_PAGE = 10
+
+
 def get_paginate(queryset, request):
-    paginator = Paginator(queryset, 10)
+    paginator = Paginator(queryset, POSTS_PER_PAGE)
     page_number = request.GET.get('page')
     return paginator.get_page(page_number)
 
@@ -121,11 +124,9 @@ def add_comment(request, post_id):
 def follow_index(request):
     text = 'Избранные авторы'
     posts_list = Post.objects.filter(author__following__user=request.user)
-    no_follow = posts_list.exists()
     page_obj = get_paginate(posts_list, request)
     context = {
         'text': text,
-        'no_follow': no_follow,
         'page_obj': page_obj,
     }
     return render(request, 'posts/follow.html', context)
@@ -140,7 +141,7 @@ def profile_follow(request, username):
         author=author,
         user=request.user,
     ).exists()
-    if not followed:
+    if not followed and author != request.user:
         Follow.objects.create(user=request.user, author=author)
     return redirect('posts:profile', username=username)
 
@@ -148,5 +149,5 @@ def profile_follow(request, username):
 @login_required
 def profile_unfollow(request, username):
     author = get_object_or_404(User, username=username)
-    Follow.objects.get(author=author, user=request.user).delete()
+    Follow.objects.filter(author=author).delete()
     return redirect('posts:profile', username=username)

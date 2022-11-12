@@ -7,7 +7,6 @@ class CreatedModel(models.Model):
         verbose_name='Дата публикации',
         help_text='Дата публикации',
         auto_now_add=True,
-        db_index=True
     )
 
     class Meta:

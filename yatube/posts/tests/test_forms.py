@@ -74,10 +74,10 @@ class PostCreateFormTests(TestCase):
         )
         self.assertEqual(Post.objects.count(), post_count + 1)
         post_last = Post.objects.first()
-        self.assertTrue(post_last.text, form_data['text'])
-        self.assertTrue(post_last.group, form_data['group'])
-        self.assertTrue(post_last.image, f'posts/{uploaded.name}')
-        self.assertTrue(post_last, self.post.author)
+        self.assertEqual(post_last.text, form_data['text'])
+        self.assertEqual(post_last.group.id, self.group.id)
+        self.assertEqual(post_last.image, f'posts/{uploaded.name}')
+        self.assertEqual(post_last.author, self.post.author)
 
     def test_edit_post(self):
         """Валидная форма редактирует запись в Posts"""
@@ -98,9 +98,9 @@ class PostCreateFormTests(TestCase):
         )
         self.assertEqual(Post.objects.count(), post_count)
         post_last_edit = Post.objects.get(pk=self.post.id)
-        self.assertTrue(post_last_edit.text, form_data['text'])
-        self.assertTrue(post_last_edit.group, form_data['group'])
-        self.assertTrue(post_last_edit, self.post.author)
+        self.assertEqual(post_last_edit.text, form_data['text'])
+        self.assertEqual(post_last_edit.group.id, self.group.id)
+        self.assertEqual(post_last_edit.author, self.post.author)
 
     def test_create_by_guest_post(self):
         """Валидная форма не авторизованного не создает запись в Posts"""

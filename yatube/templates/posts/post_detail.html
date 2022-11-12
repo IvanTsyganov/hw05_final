@@ -39,7 +39,7 @@
     <p>
       {{ post.text|truncatewords:30 }}
     </p>
-    {% if request.user.is_authenticated %}
+    {% if request.user.is_authenticated and request.user == post.author %}
       <a class="btn btn-primary" href="{% url 'posts:post_edit' post.pk %}">
         редактировать запись </a>
     {% endif %}
